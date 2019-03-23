@@ -115,18 +115,17 @@ void Clock::movePointer(){
     float newSecRotation = secondsLine.getRotation();
     float newHourRotation = hoursLine.getRotation();
 
-    if(oldSecRotation-newSecRotation){
-        soundSec.setBuffer(secondsBuffer);
-        soundSec.play();
-    }else if(hours == 12){
+    if(oldHourRotation-newHourRotation && hours!=12){
         soundHour.setBuffer(hoursBuffer[0]);
         soundHour.play();
 
-    }else if(oldHourRotation-newHourRotation && hours!=12){
+    }else if(oldHourRotation-newHourRotation && hours == 12){
         soundHour.setBuffer(hoursBuffer[1]);
         soundHour.play();
+
+    }else if(oldSecRotation-newSecRotation){
+        soundSec.setBuffer(secondsBuffer);
+        soundSec.play();
     }
 
 }
-
-
