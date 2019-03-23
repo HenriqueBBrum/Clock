@@ -34,6 +34,10 @@ Clock::Clock(){
     linePosition({4,clock.getRadius()*19/21}, minutesLine, sf::Color::Black);
     linePosition({6,clock.getRadius()*15/21}, hoursLine, sf::Color::Black);
 
+    secondsLine.setRotation((seconds/60*360-180)+0.5);
+    minutesLine.setRotation((minutes/60*360-180)+0.5);
+    hoursLine.setRotation((hours/12*360-180)+2);
+
     if(!secondsBuffer.loadFromFile("Sounds/secondsTick.wav"))
         std::abort();
 
@@ -115,15 +119,15 @@ void Clock::movePointer(){
     float newSecRotation = secondsLine.getRotation();
     float newHourRotation = hoursLine.getRotation();
 
-    if(oldHourRotation-newHourRotation && hours!=12){
+    if(hours!=12 && oldHourRotation-newHourRotation<0){
         soundHour.setBuffer(hoursBuffer[0]);
         soundHour.play();
 
-    }else if(oldHourRotation-newHourRotation && hours == 12){
+    }else if(oldHourRotation-newHourRotation<0 && hours == 12){
         soundHour.setBuffer(hoursBuffer[1]);
         soundHour.play();
 
-    }else if(oldSecRotation-newSecRotation){
+    }else if(oldSecRotation-newSecRotation<0){
         soundSec.setBuffer(secondsBuffer);
         soundSec.play();
     }
